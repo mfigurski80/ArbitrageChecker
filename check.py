@@ -1,6 +1,11 @@
-import urllib.request
+import urllib.request, json
 
-def reqURL(url):
-    with urllib.request.urlopen(url) as response:
-        res = response.read()
-        return res
+def getJSONFrom(urlToGet):
+    with urllib.request.urlopen(urlToGet) as response:
+        data = json.loads(response.read().decode())
+        return data
+
+access_key = "bdf49805e3ef4e4fac1cf6251f5eae5c"
+url = "http://data.fixer.io/api/latest?access_key=%s"% (access_key)
+
+print(getJSONFrom(url))
