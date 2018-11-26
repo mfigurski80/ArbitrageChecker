@@ -1,3 +1,9 @@
+# @author Mikolaj Figurski
+# This is an app meant to check the FX market for arbitrage opportunities.
+# In reality, these opportunites mostly cannot be taken advantage of due to the fee for converting currency
+
+# Market data comes from https://api.exchangeratesapi.io
+
 import urllib.request, json
 
 def getJSONFrom(urlToGet):
@@ -5,7 +11,13 @@ def getJSONFrom(urlToGet):
         data = json.loads(response.read().decode())
         return data
 
-access_key = "bdf49805e3ef4e4fac1cf6251f5eae5c"
-url = "http://data.fixer.io/api/latest?access_key=%s"% (access_key)
+base_url = "https://api.exchangeratesapi.io/latest"
+cur_to_check = ["USD", "EUR", "BGN", "CAD", "PLN", "AUD"]
 
-print(getJSONFrom(url))
+rates = {}
+for pos, cur in enumerate(cur_to_check):
+    # url = base_url + "?base=" + cur + "&symbols=" + ",".join(cur_to_check)
+    url = base_url + "?base=" + cur
+    print(url)
+    base_rate = getJSONFrom(url)["rates"];
+    print(base_rate.keys())
